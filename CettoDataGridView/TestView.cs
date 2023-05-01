@@ -1,8 +1,8 @@
 namespace CettoDataGridView
 {
-    public partial class Form1 : Form
+    public partial class TestView : Form
     {
-        public Form1()
+        public TestView()
         {
             InitializeComponent();
         }
