@@ -14,12 +14,12 @@ namespace CettoDataGridView
     {
         //fields
         private Color _borderColor;
-        private BindingList<CustomDataGridView> _grds;
         private DataGridViewColumnCollection _columns;
-        private List<object[]> _rows;
-
-        //fields grd
+        private CustomPanel _container;
+        private BindingList<CustomDataGridView> _grds;
         private int _groupGap = 0;
+        private List<object[]> _rows;
+        private int _rowsHeight;
 
         //properties
         public Color BorderColor
@@ -37,6 +37,15 @@ namespace CettoDataGridView
             get => _groupGap;
             set => _groupGap = value;
         }
+        public int RowsHeight
+        {
+            get => _rowsHeight;
+            set
+            {
+                _rowsHeight = value;
+                _container.ScrollStepSize = value;
+            }
+        }
 
         //propiedades sobre escritas
         public new Padding Padding
@@ -51,6 +60,18 @@ namespace CettoDataGridView
         }
 
         #region Hide Properties
+        [Browsable(false)]
+        public new Size AutoScrollMinSize
+        {
+            get => base.AutoScrollMinSize;
+            set => base.AutoScrollMinSize = value;
+        }
+        [Browsable(false)]
+        public new Size AutoScrollMargin
+        {
+            get => base.AutoScrollMargin;
+            set => base.AutoScrollMargin = value;
+        }
         [Browsable(false)]
         public new bool AutoScroll
         {
@@ -84,17 +105,12 @@ namespace CettoDataGridView
 
             //Inicializo las propiedades
             this.DoubleBuffered = true; //Esto es necesario para evitar el parpadeo al redibujar el control
-            this.Resize += (sender, e) => { this.Invalidate(); }; //Redibujo el control cada vez que se redimencione
+            this.AutoScroll = false;
 
-            var _internalDgv = new DataGridView();
-            _grds = new();
-            _grds.ListChanged += OnGrdsChange;
+            _container = new CustomPanel();
+            this.Controls.Add(_container);
 
-            _columns = _internalDgv.Columns;
-            _columns.CollectionChanged += OnColumnsChange;
-
-            _rows = new();
-
+            CettoDgvInitialize();
             GrdInitialize();
         }
 
@@ -111,12 +127,29 @@ namespace CettoDataGridView
             GrdRefreshData();
         }
 
+        private void CettoDgvInitialize()
+        {
+            //Subcomponentes
+            var _internalDgv = new DataGridView();
+            _grds = new();
+            _grds.ListChanged += OnGrdsChange;
+
+            Columns = _internalDgv.Columns;
+            Columns.CollectionChanged += OnColumnsChange;
+
+            _rows = new();
+
+            //Propiedades
+            RowsHeight = 23;
+        }
+
         private void GrdInitialize()
         {
             var grd = new CustomDataGridView();
             grd.ScrollBars = ScrollBars.None;
+            grd.RowTemplate.Height = _rowsHeight;
 
-            this.Controls.Add(grd);
+            _container.ControlsAdd(grd);
             _grds.Add(grd);
         }
 
@@ -135,14 +168,15 @@ namespace CettoDataGridView
                 //Obtengo el Width
                 int columnsWidth = 0;
                 foreach (DataGridViewColumn col in grd.Columns)
-                {
                     columnsWidth += col.Width;
-                }
                 columnsWidth += grd.RowHeadersWidth +1;
                 
                 grd.Size = new Size(columnsWidth, rowsHeight);
                 acumulateTop += grd.Height + _groupGap;
             }
+
+            acumulateTop += this.Padding.Bottom;
+            _container.SetInternalHeight(acumulateTop);
         }
 
         private void GrdRefreshData()
@@ -156,6 +190,8 @@ namespace CettoDataGridView
                     grd.Rows.Add(row);
                 }
             }
+
+            GrdLocateAndResize();
         }
 
         //events
@@ -186,6 +222,9 @@ namespace CettoDataGridView
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+
+            _container.Location = new Point(1, 1);
+            _container.Size = new Size(this.Width - 2, this.Height - 2);
 
             GrdLocateAndResize();
         }

@@ -13,12 +13,8 @@ namespace CettoDataGridView.Componentes
         public CustomDataGridView()
         {
             InitializeComponent();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
             
+            this.DoubleBuffered = true;
         }
     }
 }

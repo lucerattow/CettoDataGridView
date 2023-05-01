@@ -29,60 +29,38 @@
         private void InitializeComponent()
         {
             cgrd = new CettoDataGridView();
-            dataGridView1 = new DataGridView();
-            comboBox1 = new ComboBox();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // cgrd
             // 
             cgrd.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            cgrd.AutoScrollMargin = new Size(0, 0);
+            cgrd.AutoScrollMinSize = new Size(0, 0);
             cgrd.BorderColor = Color.Black;
             cgrd.ForeColor = Color.Black;
             cgrd.GroupGap = 0;
             cgrd.Location = new Point(12, 76);
             cgrd.Name = "cgrd";
-            cgrd.Padding = new Padding(10, 0, 10, 0);
-            cgrd.Size = new Size(776, 362);
+            cgrd.Padding = new Padding(10);
+            cgrd.Size = new Size(1069, 509);
             cgrd.TabIndex = 0;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(68, 38);
-            dataGridView1.TabIndex = 1;
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(159, 22);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(77, 23);
-            comboBox1.TabIndex = 2;
             // 
             // TestView
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(800, 450);
-            Controls.Add(comboBox1);
-            Controls.Add(dataGridView1);
+            ClientSize = new Size(1093, 597);
             Controls.Add(cgrd);
             ForeColor = Color.White;
             Name = "TestView";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private CettoDataGridView cgrd;
-        private DataGridView dataGridView1;
-        private ComboBox comboBox1;
     }
 }

@@ -73,7 +73,7 @@ namespace CettoDataGridView.TEST.DataGenerator
             {
                 result.Add(new Consumption
                 {
-                    Type = ConsumptionType.Single,
+                    Type = ConsumptionType.Installment,
                     Date = startingDate.AddMonths(i),
                     Description = $"{label} ({i}/{Installment})",
                     Amount = amount,
@@ -91,7 +91,7 @@ namespace CettoDataGridView.TEST.DataGenerator
             {
                 result.Add(new Consumption
                 {
-                    Type = ConsumptionType.Single,
+                    Type = ConsumptionType.Service,
                     Date = startingDate.AddMonths(i),
                     Description = label,
                     Amount = amount,
